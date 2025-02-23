@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'logic.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -62,8 +62,8 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: 20),
               const TabBar(
                 tabs: [
-                  Tab(icon: Icon(LineAwesomeIcons.video, size: 30, color: Colors.blue),text: "Videos"),
-                  Tab(icon: Icon(LineAwesomeIcons.image, size: 30, color: Colors.blue), text: "Images"),
+                  Tab(icon: FaIcon(FontAwesomeIcons.video, size: 30, color: Colors.blue), text: "Videos"),
+                  Tab(icon: FaIcon(FontAwesomeIcons.image, size: 30, color: Colors.blue), text: "Images"),
                 ],
               ),
               SizedBox(
@@ -105,7 +105,6 @@ class ProfilePage extends StatelessWidget {
                   ],
                 ),
               ),
-
             ],
           ),
         ),
@@ -138,30 +137,53 @@ class ProfileHeader extends StatelessWidget {
           left: 0,
           right: 0,
           child: Center(
-            child: Container(
-              height: 150,
-              width: 150,
-              decoration: BoxDecoration(
-                color: Colors.greenAccent,
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 5),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 10,
-                    spreadRadius: 2,
-                    offset: Offset(0, 5),
-                  ),
-                ],
-              ),
-              child: ClipOval(
-                child: Image.asset(
-                  "assets/malik.jpg",
-                  fit: BoxFit.cover,
-                  width: 150,
+            child: Stack(
+              children: [
+                Container(
                   height: 150,
+                  width: 150,
+                  decoration: BoxDecoration(
+                    color: Colors.greenAccent,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.white, width: 5),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 10,
+                        spreadRadius: 2,
+                        offset: Offset(0, 5),
+                      ),
+                    ],
+                  ),
+                  child: ClipOval(
+                    child: Image.asset(
+                      "assets/malik.jpg",
+                      fit: BoxFit.cover,
+                      width: 150,
+                      height: 150,
+                    ),
+                  ),
                 ),
-              ),
+
+                // Edit Icon Positioned
+                Positioned(
+                  bottom: 5,
+                  right: 5,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.blue,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.white, width: 2),
+                    ),
+                    child: IconButton(
+                      onPressed: () {
+                        // Action when edit button is clicked
+                      },
+                      icon: const FaIcon(FontAwesomeIcons.edit, size: 30, color: Colors.black),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
