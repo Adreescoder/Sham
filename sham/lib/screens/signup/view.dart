@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sham/screens/sign_in/logic.dart';
 import 'package:sham/screens/sign_in/view.dart';
+
 import 'logic.dart';
 
 class SignupPage extends StatelessWidget {
@@ -16,7 +17,6 @@ class SignupPage extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Container(
-
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
             decoration: _boxDecoration(),
             child: Column(
@@ -24,10 +24,11 @@ class SignupPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildHeader("Welcome!", "Sign up to continue"),
-                _buildTextField("Name"),
-                _buildTextField("Email"),
-                _buildTextField("Password", obscureText: true),
-                _buildTextField("Conform-Password", obscureText: true),
+                _buildTextField("Name", controller.nameController),
+                _buildTextField("Email", controller.emailController),
+                _buildObscureTextField("Phone Number", controller.phoneController, controller.isPhoneHidden),
+                _buildObscureTextField("Password", controller.passwordController, controller.isPasswordHidden),
+                _buildObscureTextField("Confirm Password", controller.confirmPasswordController, controller.isConfirmPasswordHidden),
                 _buildTermsCheckbox(),
                 _buildButton("Sign up", () {
                   controller.signUp();
@@ -41,11 +42,11 @@ class SignupPage extends StatelessWidget {
     );
   }
 
-  Widget _buildTextField(String label, {bool obscureText = false}) {
+  Widget _buildTextField(String label, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: TextField(
-        obscureText: obscureText,
+        controller: controller,
         decoration: InputDecoration(
           labelText: label,
           filled: true,
@@ -53,6 +54,35 @@ class SignupPage extends StatelessWidget {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.0),
             borderSide: BorderSide.none,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildObscureTextField(String label, TextEditingController controller, RxBool isHidden) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Obx(
+            () => TextField(
+          controller: controller,
+          obscureText: isHidden.value,
+          decoration: InputDecoration(
+            labelText: label,
+            filled: true,
+            fillColor: Color(0xFFFFCCCC),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.0),
+              borderSide: BorderSide.none,
+            ),
+            suffixIcon: IconButton(
+              icon: Icon(
+                isHidden.value ? Icons.visibility_off : Icons.visibility,
+              ),
+              onPressed: () {
+                isHidden.value = !isHidden.value;
+              },
+            ),
           ),
         ),
       ),
@@ -86,14 +116,15 @@ class SignupPage extends StatelessWidget {
           () => SizedBox(
         width: double.infinity,
         child: ElevatedButton(
-
-          onPressed: controller.isChecked.value ? onPressed : null,
+          onPressed: controller.isChecked.value && !controller.isLoading.value ? onPressed : null,
           style: ElevatedButton.styleFrom(
             backgroundColor: Color(0xFFC44D4D),
             padding: EdgeInsets.symmetric(vertical: 16),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           ),
-          child: Text(
+          child: controller.isLoading.value
+              ? CircularProgressIndicator(color: Colors.white)
+              : Text(
             text,
             style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
           ),
@@ -101,6 +132,7 @@ class SignupPage extends StatelessWidget {
       ),
     );
   }
+
 
   Widget _buildSwitchAuth(String text, Widget screen) {
     return Center(
@@ -133,6 +165,3 @@ class SignupPage extends StatelessWidget {
     );
   }
 }
-
-
-/// You is 
