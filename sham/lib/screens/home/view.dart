@@ -19,6 +19,3 @@ class HomePage extends StatelessWidget {
   }
 }
 
-// you i you
-// you i you
-// you i you
