@@ -19,6 +19,3 @@ class HomePage extends StatelessWidget {
   }
 }
 
-/// Malik sab
-/// Malik sab
-/// Malik sab
